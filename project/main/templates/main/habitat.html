@@ -1,0 +1,16 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block title %}
+{{ data.title }}
+{% endblock %}
+
+{% block content %}
+
+<div style="font-family: 'Roboto', sans-serif; color: white; margin-left: 100px; margin-top: 50px">
+    <h1>Информация о континенте: {{ data.title }}</h1>
+    <p style="width: 800px">{{ data.desc }}</p>
+    <button style="color: black" onclick="history.back()">Назад</button>
+</div>
+
+{% endblock %}

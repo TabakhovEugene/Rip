@@ -1,0 +1,43 @@
+body{
+    background-color: rgb(2, 1, 30);
+}
+
+
+
+img {
+  border-radius: 5px;
+  width: 100%;
+  height: 85%;
+  margin: 0;
+  object-fit: cover;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  border-width: 3px;
+  width: 359px;
+  height: 281px;
+  margin: 20px;
+  background-color: white;
+  text-decoration: none;
+}
+
+header {
+    background-color: rgb(2, 1, 30);
+    height: 50px;
+    line-height: 50px
+}
+
+.title {
+    text-decoration: none;
+    margin: 5px;
+    line-height: 50px;
+}
+
+button {
+  border-radius: 5px;
+  color: #ADB6C4;
+  font: sans-serif;
+}
