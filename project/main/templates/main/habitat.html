@@ -9,8 +9,11 @@
 
 <div style="font-family: 'Roboto', sans-serif; color: white; margin-left: 100px; margin-top: 50px">
     <h1>Информация о континенте: {{ data.title }}</h1>
-    <p style="width: 800px">{{ data.desc }}</p>
-    <button style="color: black" onclick="history.back()">Назад</button>
+    <div style="width: 800px; margin-top: 20px;">
+        <img style="width: 200px; height: 200px; border-radius: 50%; float: rigth; shape-outside: circle(50%); margin-left: 10px;" align="right" src="{{ data.desc_pic }}">
+        <p style="width: 800px; font-size: 18px;">{{ data.desc }}</p>
+    </div>
+    
 </div>
 
 {% endblock %}

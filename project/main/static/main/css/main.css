@@ -1,8 +1,6 @@
 body{
-    background-color: rgb(2, 1, 30);
+    background-color: #060F1E;
 }
-
-
 
 img {
   border-radius: 5px;
@@ -25,7 +23,7 @@ img {
 }
 
 header {
-    background-color: rgb(2, 1, 30);
+    background-color: #060F1E;
     height: 50px;
     line-height: 50px
 }
@@ -40,4 +38,36 @@ button {
   border-radius: 5px;
   color: #ADB6C4;
   font: sans-serif;
+}
+
+.basket{
+    background-color: rgb(182, 156, 255);
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+
+    rgba(235, 230, 230, 1);
+    transition: 0.5s;
+}
+
+.basket:hover{
+    background-color: rgb(70, 3, 255);
+    transition: 0.5s;
+}
+
+.save{
+    height: 33px;
+    width: 100px;
+    background: white;
+    color: limegreen;
+    border-width: 0.3px;
+    border-color: limegreen;
+    transition: 0.3s;
+}
+
+.save:hover{
+    background: limegreen;
+    color: white;
+    border-color: limegreen;
+    transition: 0.3s;
 }
