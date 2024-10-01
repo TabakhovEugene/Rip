@@ -9,7 +9,7 @@
 
 <form style="text-align: center; margin-top: 40px" action="{% url 'home_url' %}" method="GET" enctype="multipart/form-data">
 <!--    {% csrf_token %}-->
-    <input style="font-family: 'Roboto', sans-serif; width: 800px; height: 40px; border-radius: 10px; " placeholder="Введите место обитания животного..." name="habitat" type="text">
+    <input style="font-family: 'Roboto', sans-serif; width: 800px; height: 40px; border-radius: 10px; " placeholder="Введите место обитания животного..." name="habitat_name" type="text">
     <input style="font-family: 'Roboto', sans-serif; height: 40px; width: 70px; border-radius: 5px; " type="submit" value="Поиск" >
 </form>
 <h1 style="font-family: 'Roboto', sans-serif; font-weight: bold; font-size: 50px; margin-left: 100px; color: white; margin-top: 70px">МЕСТА ОБИТАНИЯ</h1>
@@ -17,8 +17,14 @@
     <ul style="display: grid; grid-template-columns: 440px 440px 440px; padding: 0; margin-left: 80px">
         {% for habitat in data.habitats %}
             <li class="card">
-                <img src="{{ habitat.pic }}" alt="habitat img">
-                <a style="font-family: 'Roboto', sans-serif; text-decoration: none; margin-top: 2px; text-align: center; color: black; font-weight: medium; font-size: 25px" href="{% url 'habitat_url' habitat.id %}">{{ habitat.title }}</a> </li>
+                <img src="{{ habitat.picture_url }}" alt="habitat img">
+                <a style="font-family: 'Roboto', sans-serif; text-decoration: none; margin-top: 2px; text-align: center; color: black; font-size: 25px" href="/habitat/{{ habitat.id }}">{{ habitat.title }}</a>
+                <form action="{% url 'add_habitat' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ habitat.id }}" name="habitat_id">
+                    <button class="add-btn" type="submit">Добавить</button>
+                </form>
+            </li>
         {% empty %}
             <li style="font-family: 'Roboto', sans-serif; color: white">По Вашему поиску результатов не найдено</li>
         {% endfor %}
@@ -26,7 +32,7 @@
 </div>
 
 <div style="margin-left: 65px; position: fixed; bottom: 10px;">
-    <a href="{% url 'basket_url' data.animal_id %}" style="text-decoration: none;">
+    <a href="/basket/{{ data.animal_id }}" style="text-decoration: none;">
         <img class="basket" src="http://127.0.0.1:9000/test/korzina3.png" alt="store icon">
         <div style="display: inline-block; position: relative; text-align: center; width: 25px; height: 25px; border-radius: 50%; background: blue; border: 0.5px solid white; left: -35px; top: 30px"
             >
