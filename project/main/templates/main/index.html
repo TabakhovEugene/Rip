@@ -31,8 +31,9 @@
     </ul>
 </div>
 
+{% if data.count_hab != 0 %}
 <div style="margin-left: 65px; position: fixed; bottom: 10px;">
-    <a href="/basket/{{ data.animal_id }}" style="text-decoration: none;">
+    <a href="/animal/{{ data.animal_id }}" style="text-decoration: none;">
         <img class="basket" src="http://127.0.0.1:9000/test/korzina3.png" alt="store icon">
         <div style="display: inline-block; position: relative; text-align: center; width: 25px; height: 25px; border-radius: 50%; background: blue; border: 0.5px solid white; left: -35px; top: 30px"
             >
@@ -40,7 +41,17 @@
         </div>
     </a>
 </div>
-
+{% else %}
+<div style="margin-left: 65px; position: fixed; bottom: 10px;">
+    <a href="/animal/{{ data.animal_id }}" style="text-decoration: none; pointer-events: none;">
+        <img class="basket" src="http://127.0.0.1:9000/test/korzina3.png" alt="store icon">
+        <div style="display: inline-block; position: relative; text-align: center; width: 25px; height: 25px; border-radius: 50%; background: blue; border: 0.5px solid white; left: -35px; top: 30px"
+            >
+            <p style="font-family: 'Roboto', sans-serif; color: white; font-weight: bold; font-size: 17px">{{ data.count_hab }}</p>
+        </div>
+    </a>
+</div>
+{% endif %}
 
 {% endblock %}
 

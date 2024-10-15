@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-{{ data.title }}
+{{ current_habitat.title }}
 {% endblock %}
 
 {% block content %}
@@ -10,7 +10,7 @@
 <div style="font-family: 'Roboto', sans-serif; color: white; margin-left: 100px; margin-top: 50px">
     <h1>Информация о континенте: {{ current_habitat.title }}</h1>
     <div style="width: 800px; margin-top: 20px;">
-        <img style="width: 200px; height: 200px; border-radius: 50%; float: right; shape-outside: circle(50%); margin-left: 10px;" src="{{ current_habitat.description_picture_url }}">
+        <img style="width: 270px; height: 200px; border-radius: 10%; float: right; shape-outside: circle(60%); margin-left: 10px;" src="{{ current_habitat.picture_url }}">
         <p style="width: 800px; font-size: 18px;">{{ current_habitat.description }}</p>
     </div>
     

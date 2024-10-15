@@ -29,22 +29,22 @@ def habitat(request, id):
     current_habitat = Habitat.objects.get(id=id)
     return render(request, 'main/habitat.html', {'current_habitat': current_habitat})
 
-def basket(request, id):
+def animal(request, id):
     if id == 0:
-        return render(request, 'main/basket.html', {'current_request': None})
+        return render(request, 'main/animal.html', {'current_request': None})
 
     if Animal.objects.filter(id=id).exclude(status='draft').exists():
-        return render(request, 'main/basket.html', {'current_request': None})
+        return render(request, 'main/animal.html', {'current_request': None})
 
     if not Animal.objects.filter(id=id).exists():
-        return render(request, 'main/basket.html', {'current_request': None})
+        return render(request, 'main/animal.html', {'current_request': None})
 
     req_id = id
     current_request = Animal.objects.get(id=id)
     habitat_ids = HabitatAnimal.objects.filter(animal=current_request).values_list('habitat_id', flat=True)
     current_habitats = Habitat.objects.filter(id__in=habitat_ids)
 
-    return render(request, 'main/basket.html', {'data' : {
+    return render(request, 'main/animal.html', {'data' : {
         'current_habitats': current_habitats,
         'current_request': current_request,
         'req_id':req_id

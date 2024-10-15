@@ -12,7 +12,6 @@ class Habitat(models.Model):
     status = models.CharField(max_length=15, choices=Status.choices, default=Status.ACTIVE)
 
     picture_url = models.URLField(null=False)
-    description_picture_url = models.URLField(null=False)
 
     class Meta:
         managed = True
