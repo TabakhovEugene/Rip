@@ -21,7 +21,7 @@ class AddImageSerializer(serializers.Serializer):
 class AnimalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Animal
-        fields = ["pk", "type", "genus", "status", "created_at", "formed_at", "ended_at", "user", "moderator", "final_population"]
+        fields = ["pk", "type", "genus", "status", "created_at", "formed_at", "ended_at", "username", "moderator", "final_population"]
 
 
 class PutAnimalSerializer(serializers.ModelSerializer):
@@ -29,7 +29,7 @@ class PutAnimalSerializer(serializers.ModelSerializer):
     genus = serializers.CharField()
     class Meta:
         model = Animal
-        fields = ["type", "genus", "status", "created_at", "formed_at", "ended_at", "user", "moderator", "final_population"]
+        fields = ["type", "genus", "status", "created_at", "formed_at", "ended_at", "username", "moderator", "final_population"]
 
 
 class HabitatDetailSerializer(serializers.ModelSerializer):

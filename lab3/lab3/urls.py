@@ -30,8 +30,8 @@ urlpatterns = [
     path(r'delete-animal/<int:pk>/', views.ModerateAnimal.as_view(), name='delete-animal-by-id'), #удалить заявку (DELETE)
 
     # m-m
-    path(r'delete-from-animal/<int:pk>/', views.EditAnimalHabitat.as_view(), name='delete-from-animal-by-id'), #удалить из заявки (DELETE)
-    path(r'add-population/<int:pk>/', views.EditAnimalHabitat.as_view(), name='add-population-request-by-id'),
+    path(r'delete-from-animal/<int:animal_pk>/habitat/<int:habitat_pk>', views.EditAnimalHabitat.as_view(), name='delete-from-animal-by-id'), #удалить из заявки (DELETE)
+    path(r'add-population-to-animal/<int:animal_pk>/habitat/<int:habitat_pk>', views.EditAnimalHabitat.as_view(), name='add-population-request-by-id'),
 
     # Users
     path('register/', views.UserRegistrationView.as_view(), name='register'),

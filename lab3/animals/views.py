@@ -15,10 +15,6 @@ class HabitatList(APIView):
     model_class = Habitat
     serializer_class = HabitatListSerializer
 
-    # def get(self, request, format=None):
-    #     habitats = self.model_class.objects.all()
-    #     serializer = self.serializer_class(habitats, many=True)
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
     # получить список мест обитаний
     def get(self, request):
         if 'title' in request.GET:
@@ -29,9 +25,11 @@ class HabitatList(APIView):
         serializer = self.serializer_class(habitats, many=True)
         resp = serializer.data
         draft_request = Animal.objects.filter(user=request.user, status='draft').first()
+        draft_request_id = Animal.objects.filter(user=request.user, status='draft').first().id
+        count_habitats_in_draft = HabitatAnimal.objects.filter(animal=draft_request).values_list('habitat_id', flat=True).count()
         if draft_request:
-            request_serializer = AnimalSerializer(draft_request)  # Use RequestSerializer here
-            resp.append({'request': request_serializer.data})
+            resp.append({'draft_request_id': draft_request_id})
+            resp.append({'count': count_habitats_in_draft})
 
         return Response(resp, status=status.HTTP_200_OK)
 
@@ -89,6 +87,7 @@ class AddHabitatView(APIView):
         if not Animal.objects.filter(user=request.user, status='draft').exists():
             new_animal = Animal()
             new_animal.user = request.user
+            new_animal.username = request.user.username
             new_animal.save()
         # else:
         #     new_animal = Animal.objects.filter(user=request.user, status='draft')
@@ -182,10 +181,13 @@ class GetAnimal(APIView):
         animal = get_object_or_404(Animal, pk=pk)
         serializer = AnimalSerializer(animal)
 
+
         animal_habitats = HabitatAnimal.objects.filter(animal=animal)
         habitats_ids = []
+        habitats_populations = []
         for animal_habitat in animal_habitats:
             habitats_ids.append(animal_habitat.habitat_id)
+            habitats_populations.append(animal_habitat.population)
 
         habitats_in_animal = []
         for id in habitats_ids:
@@ -194,6 +196,11 @@ class GetAnimal(APIView):
         habitats_serializer = HabitatListSerializer(habitats_in_animal, many=True)
         response = serializer.data
         response['habitats'] = habitats_serializer.data
+
+        i = 0
+        for popul in habitats_populations:
+            response['population'] = f"Популяция МО {habitats_ids[i]}: {popul}"
+            i += 1
 
         return Response(response, status=status.HTTP_200_OK)
 
@@ -255,6 +262,7 @@ class ModerateAnimal(APIView):
                     final_population += animal_habitat.population
 
                 animal.final_population = final_population
+                animal.ended_at = datetime.now()
             else:
                 animal.status = 'cancelled'
                 animal.moderator = request.user
@@ -278,21 +286,24 @@ class ModerateAnimal(APIView):
 
 
 class EditAnimalHabitat(APIView):
-    def delete(self, request, pk):
+    def delete(self, request, animal_pk, habitat_pk):
         # if not request.user.is_staff:
         #     return Response(status=status.HTTP_403_FORBIDDEN)
-        if 'habitat_id' in request.data:
-            record_m_to_m = get_object_or_404(HabitatAnimal, animal=pk, habitat=request.data['habitat_id'])
-            record_m_to_m.delete()
-            return Response(status=status.HTTP_200_OK)
-        else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+        # if 'habitat_id' in request.data:
+        #     record_m_to_m = get_object_or_404(HabitatAnimal, animal=pk, habitat=request.data['habitat_id'])
+        #     record_m_to_m.delete()
+        #     return Response(status=status.HTTP_200_OK)
+        # else:
+        #     return Response(status=status.HTTP_400_BAD_REQUEST)
+        record_m_to_m = get_object_or_404(HabitatAnimal, animal=animal_pk, habitat=habitat_pk)
+        record_m_to_m.delete()
+        return Response(status=status.HTTP_200_OK)
 
-    def put(self, request, pk):
+    def put(self, request, animal_pk, habitat_pk):
         # if not request.user.is_staff:
         #     return Response(status=status.HTTP_403_FORBIDDEN)
-        if 'habitat_id' in request.data and 'population' in request.data:
-            record_m_to_m = get_object_or_404(HabitatAnimal, animal=pk, habitat=request.data['habitat_id'])
+        if 'population' in request.data:
+            record_m_to_m = get_object_or_404(HabitatAnimal, animal=animal_pk, habitat=habitat_pk)
             record_m_to_m.population = request.data['population']
             record_m_to_m.save()
             return Response(status=status.HTTP_200_OK)

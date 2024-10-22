@@ -35,6 +35,7 @@ class Animal(models.Model):
     formed_at = models.DateTimeField(null=True)
     ended_at = models.DateTimeField(null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    username = models.CharField(max_length=100, null=True)
     moderator = models.ForeignKey(User, null=True, related_name='moderator_id', on_delete=models.CASCADE)
     # user = models.ForeignKey(AuthUser, on_delete=models.DO_NOTHING, null=True, blank=False)
     # moderator = models.ForeignKey('AuthUser',null=True,related_name='moderator_id',on_delete=models.CASCADE)
