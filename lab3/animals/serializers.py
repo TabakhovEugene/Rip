@@ -35,14 +35,21 @@ class PutAnimalSerializer(serializers.ModelSerializer):
 class HabitatDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Habitat
-        fields = ["pk", "title", "description", "status", "picture_url", "description_picture_url"]
+        fields = ["pk", "title", "description", "status", "picture_url"]
 
 
 class HabitatListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Habitat
-        fields = ["pk", "title", "description", "status", "picture_url"]
+        fields = ["pk", "title", "description", "picture_url"]
+
+
+class HabitatListInAnimalSerializer(serializers.ModelSerializer):
+    population = serializers.IntegerField(required=False)
+    class Meta:
+        model = Habitat
+        fields = ["pk", "title", "status", "picture_url", "population"]
 
 
 class ImageSerializer(serializers.ModelSerializer):

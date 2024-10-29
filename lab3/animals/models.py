@@ -46,7 +46,7 @@ class Animal(models.Model):
         db_table = 'animals'
 
 class HabitatAnimal(models.Model):
-    habitat = models.ForeignKey(Habitat, on_delete=models.CASCADE)
+    habitat = models.ForeignKey(Habitat, on_delete=models.CASCADE, related_name='habitat_habitat')
     animal = models.ForeignKey(Animal, on_delete=models.CASCADE, related_name='animal_habitats')
     population = models.IntegerField(null=True)
 

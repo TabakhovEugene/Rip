@@ -3,9 +3,33 @@ from animals import views
 from django.urls import include, path
 from rest_framework import routers
 
+from rest_framework import permissions
+from django.urls import path, include
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Snippets API",
+      default_version='v1',
+      description="Test description",
+      terms_of_service="https://www.google.com/policies/terms/",
+      contact=openapi.Contact(email="contact@snippets.local"),
+      license=openapi.License(name="BSD License"),
+   ),
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
+
+
 router = routers.DefaultRouter()
 
 urlpatterns = [
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('swagger.json', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger.yaml', schema_view.without_ui(cache_timeout=0), name='schema-yaml'),
+
     path('admin/', admin.site.urls),
 
     # Услуги
@@ -16,7 +40,7 @@ urlpatterns = [
     path(r'habitats/update/<int:pk>/', views.HabitatDetail.as_view(), name='habitat-update'), # редактирование места обитания (PUT),
     path(r'habitats/delete/<int:pk>/', views.HabitatDetail.as_view(), name='habitat-delete'), # удаление места обитания (DELETE),
 
-    path(r'habitats/add/', views.AddHabitatView.as_view(), name='add-habitat-to-animal'), # добавление МО в заявку (POST),
+    path(r'habitats/add/<int:pk>/', views.AddHabitatView.as_view(), name='add-habitat-to-animal'), # добавление МО в заявку (POST),
 
     path(r'habitats/image/', views.ImageView.as_view(), name='add-image'),  # замена изображения
 
@@ -30,8 +54,8 @@ urlpatterns = [
     path(r'delete-animal/<int:pk>/', views.ModerateAnimal.as_view(), name='delete-animal-by-id'), #удалить заявку (DELETE)
 
     # m-m
-    path(r'delete-from-animal/<int:animal_pk>/habitat/<int:habitat_pk>', views.EditAnimalHabitat.as_view(), name='delete-from-animal-by-id'), #удалить из заявки (DELETE)
-    path(r'add-population-to-animal/<int:animal_pk>/habitat/<int:habitat_pk>', views.EditAnimalHabitat.as_view(), name='add-population-request-by-id'),
+    path(r'delete-from-animal/<int:animal_pk>/habitat/<int:habitat_pk>/', views.EditAnimalHabitat.as_view(), name='delete-from-animal-by-id'), #удалить из заявки (DELETE)
+    path(r'add-population-to-animal/<int:animal_pk>/habitat/<int:habitat_pk>/', views.EditAnimalHabitat.as_view(), name='add-population-request-by-id'),
 
     # Users
     path('register/', views.UserRegistrationView.as_view(), name='register'),

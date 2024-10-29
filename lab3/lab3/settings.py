@@ -44,17 +44,24 @@ INSTALLED_APPS = [
 
     # Приложение
     'animals',
+
+    #Swagger
+    'drf_yasg',
+
+    'django_redis'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CSRF_COOKIE_SECURE = False
 
 ROOT_URLCONF = 'lab3.urls'
 
@@ -136,6 +143,38 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Настройки для аутентификации через токены
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+AWS_STORAGE_BUCKET_NAME = 'static'
+AWS_ACCESS_KEY_ID = 'minio'
+AWS_SECRET_ACCESS_KEY = 'minio124'
+AWS_S3_ENDPOINT_URL = 'localhost:9000'
+MINIO_USE_SSL = False
+
+
+
+#Настройки Redis
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+        "TIMEOUT": 60*60*24,
+    }
+}
+
+REDIS_HOST = '0.0.0.0'
+REDIS_PORT = 6379
+
+SESSION_COOKIE_NAME = "sessionid"
+SESSION_COOKIE_HTTPONLY = False
+SESSION_COOKIE_SECURE = False
